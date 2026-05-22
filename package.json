@@ -1,0 +1,25 @@
+{
+  "name": "bilibili-summarizer",
+  "version": "1.0.0",
+  "description": "浏览器扩展，一键生成 B站视频的 AI 总结。",
+  "main": "background.js",
+  "scripts": {
+    "dev": "web-ext run --target=chromium --chromium-binary=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" --no-config-discovery",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uea162/bilibili-summarizer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/uea162/bilibili-summarizer/issues"
+  },
+  "homepage": "https://github.com/uea162/bilibili-summarizer#readme",
+  "devDependencies": {
+    "web-ext": "^10.2.0"
+  }
+}
