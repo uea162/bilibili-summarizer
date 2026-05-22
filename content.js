@@ -6,6 +6,7 @@
   const SIDEBAR_ID = 'bili-summary-sidebar';
   const BTN_ID = 'bili-summary-btn';
   let currentBvid = null;
+  const summaryCache = {};  // { bvid: { title, summaryHtml } }
 
   function init() {
     const bvid = extractBvid();
@@ -162,7 +163,15 @@
     const loadingEl = sidebar.querySelector('.bs-loading');
     const contentEl = sidebar.querySelector('.bs-content');
     const errorEl = sidebar.querySelector('.bs-error');
-    const btn = sidebar.querySelector('.bs-summarize-btn');
+
+    // 有缓存直接显示
+    if (summaryCache[bvid]) {
+      contentEl.innerHTML = summaryCache[bvid].summaryHtml;
+      contentEl.classList.remove('hidden');
+      bindTimestampClicks(contentEl);
+      bindCollapsibleSections(contentEl);
+      return;
+    }
 
     loadingEl.classList.remove('hidden');
 
@@ -177,10 +186,14 @@
       if (!result) throw new Error('后台服务无响应，请刷新页面后重试');
       if (result.error) throw new Error(result.error);
 
-      contentEl.innerHTML = renderMarkdown(result.summary);
+      const html = renderMarkdown(result.summary);
+      contentEl.innerHTML = html;
       contentEl.classList.remove('hidden');
       bindTimestampClicks(contentEl);
       bindCollapsibleSections(contentEl);
+
+      // 缓存结果
+      summaryCache[bvid] = { summaryHtml: html };
 
     } catch (err) {
       console.error('[B站总结] 错误:', err.message, err);
