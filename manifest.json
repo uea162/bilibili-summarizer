@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "B站视频总结",
+  "version": "2.0.0",
+  "description": "使用 AI 自动总结 B站视频内容，支持 Claude、DeepSeek、通义千问、智谱等多种 AI 服务",
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": [
+    "https://api.bilibili.com/*",
+    "https://*.bilibili.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "https://api.deepseek.com/*",
+    "https://dashscope.aliyuncs.com/*",
+    "https://open.bigmodel.cn/*",
+    "https://api.siliconflow.cn/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.bilibili.com/video/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
