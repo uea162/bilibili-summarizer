@@ -76,7 +76,7 @@ async function callClaudeAPI(baseUrl, apiKey, model, prompt) {
 
 // OpenAI 兼容 API（覆盖 DeepSeek、通义千问、智谱、硅基流动等）
 async function callOpenAICompatibleAPI(baseUrl, apiKey, model, prompt) {
-  const url = baseUrl.replace(/\/+$/, '') + '/v1/chat/completions';
+  const url = baseUrl.replace(/\/+$/, '') + '/chat/completions';
   console.log('[B站总结] 请求 API:', url, '模型:', model);
   try {
     const response = await fetch(url, {

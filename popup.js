@@ -21,7 +21,7 @@ const PROVIDERS = {
   },
   deepseek: {
     name: 'DeepSeek',
-    baseUrl: 'https://api.deepseek.com',
+    baseUrl: 'https://api.deepseek.com/v1',
     models: [
       { value: 'deepseek-chat', label: 'DeepSeek Chat (推荐)' },
       { value: 'deepseek-reasoner', label: 'DeepSeek Reasoner (更强)' }
@@ -30,7 +30,7 @@ const PROVIDERS = {
   },
   qwen: {
     name: '通义千问',
-    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode',
+    baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
     models: [
       { value: 'qwen-turbo', label: 'Qwen Turbo (免费额度)' },
       { value: 'qwen-plus', label: 'Qwen Plus' },
@@ -40,7 +40,7 @@ const PROVIDERS = {
   },
   glm: {
     name: '智谱 GLM',
-    baseUrl: 'https://open.bigmodel.cn/api/paas',
+    baseUrl: 'https://open.bigmodel.cn/api/paas/v4',
     models: [
       { value: 'glm-4-flash', label: 'GLM-4 Flash (免费)' },
       { value: 'glm-4', label: 'GLM-4' },
@@ -50,11 +50,11 @@ const PROVIDERS = {
   },
   siliconflow: {
     name: '硅基流动',
-    baseUrl: 'https://api.siliconflow.cn',
+    baseUrl: 'https://api.siliconflow.cn/v1',
     models: [
-      { value: 'deepseek-ai/DeepSeek-V3', label: 'DeepSeek V3 (免费)' },
-      { value: 'Qwen/Qwen2.5-72B-Instruct', label: 'Qwen 2.5 72B (免费)' },
-      { value: 'meta-llama/Meta-Llama-3.1-70B-Instruct', label: 'Llama 3.1 70B (免费)' }
+      { value: 'deepseek-ai/DeepSeek-V3', label: 'DeepSeek V3' },
+      { value: 'Qwen/Qwen2.5-72B-Instruct', label: 'Qwen 2.5 72B' },
+      { value: 'meta-llama/Meta-Llama-3.1-70B-Instruct', label: 'Llama 3.1 70B' }
     ],
     keyPlaceholder: 'sk-...'
   },
@@ -62,7 +62,8 @@ const PROVIDERS = {
     name: '自定义',
     baseUrl: '',
     models: [],
-    keyPlaceholder: '输入你的 API Key'
+    keyPlaceholder: '输入你的 API Key',
+    hint: 'Base URL 填到 /v1 为止，如 https://api.example.com/v1'
   }
 };
 
@@ -73,6 +74,7 @@ const modelSelect = document.getElementById('model');
 const modelCustomInput = document.getElementById('modelCustom');
 const apiFormatSelect = document.getElementById('apiFormat');
 const apiFormatGroup = document.getElementById('apiFormatGroup');
+const baseUrlHint = document.getElementById('baseUrlHint');
 const saveBtn = document.getElementById('save');
 const statusDiv = document.getElementById('status');
 
@@ -83,11 +85,13 @@ providerSelect.addEventListener('change', () => {
   baseUrlInput.readOnly = providerSelect.value !== 'custom';
   apiKeyInput.placeholder = p.keyPlaceholder;
 
-  // 只有自定义时显示 API 格式选择
+  // 只有自定义时显示 API 格式选择和 URL 提示
   if (providerSelect.value === 'custom') {
     apiFormatGroup.classList.remove('hidden');
+    baseUrlHint.textContent = '填到 /v1 为止，如 https://api.example.com/v1';
   } else {
     apiFormatGroup.classList.add('hidden');
+    baseUrlHint.textContent = '';
   }
 
   if (p.models.length > 0) {
